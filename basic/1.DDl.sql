@@ -58,7 +58,7 @@ SHOW INDEX FROM posts;
 
 -- ALTER문
 -- 테이블 이름 변경 -> ex) posts를 post로 
-ALTER TABLE 테이블명 RENAME 새로운_테이블명;
+ALTER TABLE 테이블명 RENAME 새로운테이블명;
 -- ex) ALTER TABLE posts RENAME post;
 
 -- 칼럼 추가 (ADD) -> role이라는 칼럼 추가
@@ -70,9 +70,13 @@ ALTER TABLE 테이블명 MODIFY COLUMN 칼럼명 타입 [제약 조건];
 -- ex) ALTER TABLE post MODIFY COLUMN name VARCHAR(100) NOT NULL;
 
 -- 칼럼 이름 변경 -> content를 contents로
-ALTER TABLE 테이블명 CHANGE COLUMN 기존칼럼명 새로운칼럼명 타입 [제약조건];
+ALTER TABLE 테이블명 CHANGE COLUMN 기존칼럼명 새로운칼럼명 타입 [제약 조건];
 -- ALTER TABLE post CHANGE COLUMN content contents VARCHAR(255) NOT NULL;
 
 -- 칼럼 삭제 -> test1 칼럼 삭제
 ALTER TABLE 테이블명 DROP COLUMN 칼럼명;
 -- ALTER TABLE author DROP COLUMN test1;
+
+-- --------------------------------------------
+
+-- DROP문
