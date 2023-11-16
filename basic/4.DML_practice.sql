@@ -1,4 +1,4 @@
--- INSERT
+-- INSERT Practice
 INSERT INTO author(id, name, email) VALUES (1, 'kim', 'abc@naver.com');
 
 insert into author(id, name, email, password, role, address) values 
@@ -32,3 +32,17 @@ insert into post(id, title, contents, author_id) values
 (5, 'thank', 'you', 7);
 
 select * from post;
+
+-- UPDATE Practice
+UPDATE author set email='abc@naver.com' where id=4;
+UPDATE author set name='abc' where id=4;
+
+-- Delete Practice
+delete from author where id=5; 
+
+-- 연동이  되어있어서 에러남!
+delete from author where id=3; 
+
+-- 조치방법
+delete from post where author_id=3;
+delete from author where id=3; 
