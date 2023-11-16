@@ -1,3 +1,5 @@
+-- INSERT
+INSERT INTO author(id, name, email) VALUES (1, 'kim', 'abc@naver.com');
 
 insert into author(id, name, email, password, role, address) values 
 (2, 'amy', 'amy@naver.com', '123', 'teacher', NULL);
@@ -22,8 +24,10 @@ insert into post(id, title, contents, author_id) values
 (2, 'good', 'morning', 3);
 insert into post(id, title, contents, author_id) values
 (3, 'happy', 'holiday', NULL);
-insert into post(id, title, contents, author_id) values
-(4, 'merry', 'christmas', NULL);
+-- NULL은 안 쳐도 됨! -> leave it as blank
+insert into post(id, title, contents) values
+(4, 'merry', 'christmas');
+-- 에러 발생
 insert into post(id, title, contents, author_id) values
 (5, 'thank', 'you', 7);
 
