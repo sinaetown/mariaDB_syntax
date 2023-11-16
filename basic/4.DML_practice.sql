@@ -34,15 +34,21 @@ insert into post(id, title, contents, author_id) values
 select * from post;
 
 -- UPDATE Practice
-UPDATE author set email='abc@naver.com' where id=4;
-UPDATE author set name='abc' where id=4;
+-- author 데이터 중 id가 4인 데이터를 email과 name을 변경
+UPDATE author set email='abc@naver.com', name='abc' where id=4;
 
 -- Delete Practice
+-- post에 글쓴 적이 없는 author 데이터 1개 삭제
 delete from author where id=5; 
+
+-- post에 글쓴 적이 있는 author 데이터 1개 삭제 -> 에러 -> 조치 후 삭제
 
 -- 연동이  되어있어서 에러남!
 delete from author where id=3; 
 
--- 조치방법
+-- 조치방법 1.
 delete from post where author_id=3;
+delete from author where id=3; 
+-- 2. or just make it as NULL
+update post set author_id=NULL where author_id=3;
 delete from author where id=3; 

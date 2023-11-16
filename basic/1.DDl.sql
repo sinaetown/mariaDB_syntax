@@ -71,12 +71,8 @@ ALTER TABLE 테이블명 MODIFY COLUMN 칼럼명 타입 [제약 조건];
 
 -- 칼럼 이름 변경 -> content를 contents로
 ALTER TABLE 테이블명 CHANGE COLUMN 기존칼럼명 새로운칼럼명 타입 [제약 조건];
--- ALTER TABLE post CHANGE COLUMN content contents VARCHAR(255) NOT NULL;
+-- ex) ALTER TABLE post CHANGE COLUMN content contents VARCHAR(255) NOT NULL;
 
 -- 칼럼 삭제 -> test1 칼럼 삭제
 ALTER TABLE 테이블명 DROP COLUMN 칼럼명;
--- ALTER TABLE author DROP COLUMN test1;
-
--- --------------------------------------------
-
--- DROP문
+-- ex) ALTER TABLE author DROP COLUMN test1;
