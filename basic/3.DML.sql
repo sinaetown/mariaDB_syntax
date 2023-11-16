@@ -5,6 +5,13 @@
 INSERT INTO 테이블이름(필드이름1, 필드이름2 ..) values (데이터값1, 데이터값2 ..);
 -- ex) INSERT INTO author(id, name, email) VALUES (1, 'kim', 'abc@naver.com');
 
+-- SELECT
+SELECT 필드이름 FROM 테이블이름 WHERE 조건
+-- ex) SELECT * FROM author;
+-- ex) SELECT name, email FROM author WHERE id=3;
+-- ex) SELECT * FROM author WHERE id>1;
+-- ex) SELECT * FROM author WHERE id>1 AND name='kim';
+
 -- UPDATE
 -- 테이블 레코드의 내용을 수정
 UPDATE 테이블이름 SET 필드이름1=데이터값, 필드이름2=데이터값2 ... WHERE 필드이름=데이터값;
