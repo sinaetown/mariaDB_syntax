@@ -101,6 +101,12 @@ alter table author modify column role enum('user', 'admin') not null default 'us
 -- datetime(6) default current_timestamp(6)
 -- 칼럼 추가 후 insert 테스트
 
-
 alter table post add column created_time DATETIME(6) default current_timestamp(6);
 insert into post(id, title, contents) values(6, 'hello', 'bye');
+
+-- 5 Operator Practice
+select * from post where id not in (1,2,4);
+select * from post where id between 2 and 4;
+select * from post where id >= 2 AND id <=4;
+select * from post where id = 2 || id = 3 || id = 4;
+select * from post where not (id < 2 OR id > 4);
