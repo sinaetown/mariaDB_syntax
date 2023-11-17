@@ -1,18 +1,14 @@
 -- INSERT Practice
-INSERT INTO author(id, name, email) VALUES (1, 'kim', 'abc@naver.com');
-
+insert into author(id, name, email) values 
+(1, 'kim', 'abc@naver.com');
 insert into author(id, name, email, password, role, address) values 
 (2, 'amy', 'amy@naver.com', '123', 'teacher', NULL);
-
 insert into author(id, name, email, password, role, address) values 
 (3, 'bob', 'bob@google.com', '456', 'doctor', NULL);
-
 insert into author(id, name, email, password, role, address) values 
 (4, 'chris', 'chris@google.com', '789', 'engineer', NULL);
-
 insert into author(id, name, email, password, role, address) values 
 (5, 'david', 'david@yahoo.com', '1011', 'scientist', NULL);
-
 insert into author(id, name, email, password, role, address) values 
 (6, 'eric', 'eric@yahoo.com', '1213', 'chef', NULL);
 
@@ -52,3 +48,31 @@ delete from author where id=3;
 -- 2. or just make it as NULL
 update post set author_id=NULL where author_id=3;
 delete from author where id=3; 
+
+-- author 삭제해도 글은 그대로 유지시키는 연습 
+insert into author(id, name, email) values 
+(1, 'kim', 'abc@naver.com');
+insert into author(id, name, email) values 
+(2, 'amy', 'amy@naver.com');
+insert into author(id, name, email) values 
+(3, 'bob', 'bob@google.com');
+insert into author(id, name, email) values 
+(4, 'chris', 'chris@google.com');
+insert into author(id, name, email) values 
+(5, 'david', 'david@yahoo.com');
+
+insert into post(id, title, contents, author_id) values
+(1, 'hello', 'world', 2);
+insert into post(id, title, contents, author_id) values
+(2, 'good', 'morning', 3);
+insert into post(id, title, contents) values
+(3, 'happy', 'holiday');
+insert into post(id, title, contents) values
+(4, 'merry', 'christmas');
+insert into post(id, title, contents) values
+(5, 'thank', 'you');
+
+
+UPDATE POST SET AUTHOR_ID=NULL WHERE AUTHOR_ID IS NOT NULL;
+delete from author;
+select * from post order by title, contents desc limit 3;
