@@ -110,3 +110,51 @@ select * from post where id between 2 and 4;
 select * from post where id >= 2 AND id <=4;
 select * from post where id = 2 || id = 3 || id = 4;
 select * from post where not (id < 2 OR id > 4);
+
+-- LIKE Practice
+select * from author where name like "%a%";
+select * from author where name like "%e";
+select * from author where name like "d%";
+
+select * from author where name not like "%a%";
+select * from author where name not like "%e";
+select * from author where name not like "d%";
+
+
+-- CONSTARINT 
+-- 제약 조건 걸면 인덱스 자동 생성
+-- 제약조건/인덱스 한 쪽만 삭제하면 다른 한 쪽도 자동 삭제
+
+-- 방법 1.
+-- 제약조건 걸기
+alter table author moidfy column email varchar(255) unique;
+-- 제약조건 확인
+SELECT * FROM information_schema.table_constraints WHERE TABLE_NAME = 'author';
+-- 인덱스 확인
+show index from author;
+-- index 삭제
+alter table author drop index email; 
+
+-- 방법 2.
+alter table author add constraint author_unique unique(email);
+-- 제약조건 확인
+SELECT * FROM information_schema.table_constraints WHERE TABLE_NAME = 'author';
+-- 인덱스 확인
+show index from author;
+
+-- FOREIGN KEY ON DELETE / ON UPDATE
+foreign key(author_id) references author(id) on update cascade;
+-- => 
+
+
+----------------------------------------
+select * from information_schema.key_column_usage where table_name = 'post';
+alter table post drop foreign key post_ibfk_1; --기존의 fk 삭제
+show index from post; --index 남아있어
+alter table post drop index author_id; --index 삭제해주기
+alter table post add constraint post_author_fk foreign key(author_id) references author(id) on update cascade;
+
+-- author id를 update 했을 때 post에 author_id가 같이 바뀌었는지 확인
+update author set id = 10 where id = 1;
+
+----------------------------------------
