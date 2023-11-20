@@ -158,3 +158,37 @@ alter table post add constraint post_author_fk foreign key(author_id) references
 update author set id = 10 where id = 1;
 
 ----------------------------------------
+-- CASE WHEN PRACTICE
+-- ex) post테이블에서 id, title, contents, author_id의 경우, author_type이라는 이름으로 조회, author_id가 1인 경우 
+select id, title, contents, 
+case author_id
+when 1 then 'First Author'
+when 2 then 'Second Author'
+else 'Others'
+end
+as author_type from post;
+
+--ex) for checking null:
+select id, title, contents, 
+case
+when author_id=1 then 'First Author'
+when author_id=2 then 'Second Author'
+when author_id is null then 'Anonymous'
+else 'Others'
+end
+as author_type from post;
+
+-- IF Practice
+-- ex) null이 아니면 author_id 출력, null이면 anonymous 출력
+select id, title, contents,ifnull(author_id, 'anonymous');
+
+-- ex) if문 사용해서 만약 id가 1이면 first author, 그렇지 않으면 others
+-- id, title, contents, author_type 순서대로 표현!
+select id, title, contents,
+if(author_id=1, 'first author', 'others') 
+as author_type from post;
+
+-- ex) 위에서 사용한 ifnull의 결과값을 동일하게 if문으로 출력
+select id, title, contents, 
+if (author_id is null, 'anonymous', author_id)
+as author_type from post;
