@@ -254,3 +254,95 @@ insert into post(title, contents, author_id) values('hello', 'hello is', 10);
 -- - 일반적으로는 사용자가 위와 같은 쿼리를 실행시킬수는 없으니, 프로그램에서 논리적인 트랜잭션을 지정하고, 전체 commit 또는 전체 rollback하는 명령을 실행
 
 rollback;
+
+--------------------------------------------------------------------------------
+
+-- INNER JOIN PRACTICE
+select * from author as a inner join post as p on a.id = p.author_id;
+
+-- LEFT JOIN PRACTICE
+select * from author as a left join post as p on a.id = p.author_id;
+select a.name from author as a left join post as p on a.id = p.author_id where p.title = "PURPLE";
+
+-- TRY1)
+select a.name, p.title from author a inner join post p on a.id=p.author_id;
+
+-- TRY2)
+select a.name, p.title from author a left join post p on a.id=p.author_id;
+
+-- TRY3)
+select a.name, p.title from author a left join post p on a.id=p.author_id where a.age >= 25;
+
+--------------------------------------------------------------------------------
+
+-- SUBQUERY
+
+-- BELOW ONES ARE THE SAME :/ 
+SELECT a.* FROM author a INNER JOIN post p ON a.id = p.author_id;
+SELECT a.* FROM author a WHERE a.ID IN (SELECT p.author_id FROM post p);
+
+--------------------------------------------------------------------------------
+
+-- GROUP BY
+
+-- ex) POST의 PRICE에 적절한 값을 넣어놓고, AVG, MIN, MAX, SUM 구하기
+
+SELECT ROUND(AVG(price),0) AS AVG_PRICE FROM POST; 
+-- 소숫점 0번째 자리까지 반올림, NULL값은 아에 분모로도 세지 않음
+
+SELECT MIN(PRICE) FROM POST;
+SELECT MAX(PRICE) FROM POST;
+SELECT SUM(PRICE) FROM POST;
+
+-- ex) author_id별 count, price sum, pricea avg 구하기
+SELECT AUTHOR_ID, COUNT(*) FROM POST GROUP BY AUTHOR_ID;
+SELECT AUTHOR_ID, SUM(PRICE) FROM POST GROUP BY AUTHOR_ID;
+SELECT AUTHOR_ID, ROUND(AVG(PRICE),1) FROM POST GROUP BY AUTHOR_ID;
+
+-- TRY1) AUTHOR_ID별로 PRICE 평균값을 구하라. 단, 건 별로 30 이상인 데이터만 평균을 내서 출력하라.
+SELECT AVG(PRICE), AUTHOR_ID FROM POST WHERE PRICE >= 30 GROUP BY AUTHOR_ID;
+
+-- TRY2) AUTHOR_ID별로 PRICE 평균값을 구하되 그룹별 평균값이 30 이상인 것만 출력하라.
+SELECT AVG(PRICE) AS AVG_PRICE, AUTHOR_ID FROM POST GROUP BY AUTHOR_ID HAVING AVG_PRICE >= 30;
+
+-- TRY3) 1+2
+SELECT AVG(PRICE) AS AVG_PRICE, AUTHOR_ID FROM POST WHERE PRICE >= 30 GROUP BY AUTHOR_ID HAVING AVG_PRICE >= 39;
+
+--------------------------------------------------------------------------------
+
+-- COUNT, AVG, MIN, MAX ,SUM
+
+-- POST의 PRICE에 적절한 값을 넣어놓고,
+-- AVG, MIN, MAX, SUM 구하기
+
+SELECT COUNT(*) FROM POST;
+SELECT ROUND(AVG(price),0) AS AVG_PRICE FROM POST; 
+-- 소숫점 0번째 자리까지 반올림, NULL값은 아에 분모로도 세지 않음
+
+SELECT MIN(PRICE) FROM POST;
+SELECT MAX(PRICE) FROM POST;
+SELECT SUM(PRICE) FROM POST;
+
+--------------------------------------------------------------------------------
+
+-- HAVING
+
+-- AUTHOR_ID별로 PRICE 평균값을 구하라. 단, 건 별로 30 이상인 데이터만 평균을 내서 출력하라.
+SELECT AVG(PRICE), AUTHOR_ID FROM POST WHERE PRICE >= 30 GROUP BY AUTHOR_ID;
+
+-- AUTHOR_ID별로 PRICE 평균값을 구하되 그룹별 평균값이 30 이상인 것만 출력하라.
+SELECT AVG(PRICE) AS AVG_PRICE, AUTHOR_ID FROM POST GROUP BY AUTHOR_ID HAVING AVG_PRICE >= 30;
+
+-- 1+2
+SELECT AVG(PRICE) AS AVG_PRICE, AUTHOR_ID FROM POST WHERE PRICE >= 30 GROUP BY AUTHOR_ID HAVING AVG_PRICE >= 39;
+
+--------------------------------------------------------------------------------
+
+-- WITH RECURSIVE
+
+WITH RECURSIVE number_seq(HOUR) AS (
+	SELECT 0
+	UNION ALL
+	SELECT HOUR + 1 FROM number_seq WHERE HOUR < 23;
+)
+SELECT HOUR, 0 AS COUNT FROM number_seq;
