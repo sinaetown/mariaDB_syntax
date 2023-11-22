@@ -346,3 +346,23 @@ WITH RECURSIVE number_seq(HOUR) AS (
 	SELECT HOUR + 1 FROM number_seq WHERE HOUR < 23;
 )
 SELECT HOUR, 0 AS COUNT FROM number_seq;
+
+--------------------------------------------------------------------------------
+
+-- INDEX PRACTICE
+
+create index author_name on author(name);
+create index name_with_email on author(name, email);
+select * from author;
+show index from author;
+select * from author where name='Summer' and email='summer@gmail.com';
+
+--------------------------------------------------------------------------------
+
+-- 사용자 관리
+
+CREATE USER 'userme'@'localhost' IDENTIFIED BY 'userpw';
+SELECT * FROM mysql.user;
+GRANT SELECT ON board.author TO 'userme'@'localhost';
+FLUSH PRIVILEGES;
+SHOW GRANTS FOR '유저이름'@'localhost';
