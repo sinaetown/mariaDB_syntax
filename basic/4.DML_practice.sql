@@ -1,6 +1,7 @@
 --------------------------------------------------------------------------------
 
 -- INSERT PRACTICE
+
 insert into author(id, name, email) values 
 (1, 'kim', 'abc@naver.com');
 insert into author(id, name, email, password, role, address) values 
@@ -34,6 +35,7 @@ select * from post;
 --------------------------------------------------------------------------------
 
 -- UPDATE PRACTICE
+
 -- author 데이터 중 id가 4인 데이터를 email과 name을 변경
 UPDATE author set email='abc@naver.com', name='abc' where id=4;
 
@@ -70,6 +72,7 @@ ALTER TABLE POST ADD COLUM PRICE DECIMAL(10,3);
 --------------------------------------------------------------------------------
 
 -- ENUM PRACTICE
+
 -- 1) role column의 타입을 ENUM 타입으로 변경
 -- 2) 'user', 'admin'으로 ENUM 타입 지정 & not null로 설정
 -- 3) 입력이 없을 시에는 'user'로 세팅되도록 default 설정
@@ -85,6 +88,7 @@ insert into author(id, name, email) values (3, 'Jake', 'jake@gmail.com');
 --------------------------------------------------------------------------------
 
 -- DATETIME PRACTICE
+
 -- post 테이블에 DATETIME으로 created_time 칼럼 추가 및 default로 현재 시간 들어가도록 설정
 -- 칼럼 추가 후 insert 테스트
 
@@ -94,6 +98,7 @@ insert into post(id, title, contents) values(6, 'hello', 'bye');
 --------------------------------------------------------------------------------
 
 -- OPERATOR PRACTICE
+
 select * from post where id not in (1,2,4);
 select * from post where id between 2 and 4;
 select * from post where id >= 2 AND id <=4;
@@ -103,6 +108,7 @@ select * from post where not (id < 2 OR id > 4);
 --------------------------------------------------------------------------------
 
 -- LIKE PRACTICE
+
 select * from author where name like "%a%";
 select * from author where name like "%e";
 select * from author where name like "d%";
@@ -134,6 +140,7 @@ select * from post where date_format(created_time, "%Y-%m-%d") = date_format(now
 --------------------------------------------------------------------------------
 
 -- CONSTRAINT PRACTICE
+
 -- 제약 조건 걸면 인덱스 자동 생성
 -- 제약조건/인덱스 한 쪽만 삭제하면 다른 한 쪽도 자동 삭제
 
@@ -149,6 +156,7 @@ ALTER TABLE post MODIFY COLUMN id INT AUTO_INCREMENT;
 ...
 
 -- FOREIGN KEY PRACTICE
+
 --ex)
 ALTER TABLE post ADD CONSTRAINT
 post_author_fk FOREIGN KEY(author_id) REFERENCES author(id) ON UPDATE cascade;
@@ -198,6 +206,7 @@ ALTER TABLE post ADD create_at DATETIME DEFAULT CURRENT_TIMESTAMP;
 --------------------------------------------------------------------------------
 
 -- CASE WHEN PRACTICE
+
 -- TRY) post테이블에서 id, title, contents, author_id의 경우, author_type이라는 이름으로 조회, author_id가 1인 경우 
 select id, title, contents, 
 case author_id
@@ -220,6 +229,7 @@ as author_type from post;
 --------------------------------------------------------------------------------
 
 -- IF Practice
+
 -- TRY1) null이 아니면 author_id 출력, null이면 anonymous 출력
 select id, title, contents,ifnull(author_id, 'anonymous');
 
@@ -359,10 +369,82 @@ select * from author where name='Summer' and email='summer@gmail.com';
 
 --------------------------------------------------------------------------------
 
--- 사용자 관리
+-- 사용자 관리 PRACTICE
 
-CREATE USER 'userme'@'localhost' IDENTIFIED BY 'userpw';
-SELECT * FROM mysql.user;
 GRANT SELECT ON board.author TO 'userme'@'localhost';
+GRANT INSERT ON board.author TO 'userme'@'localhost';
+REVOKE INSERT ON board.author FROM 'userme'@'localhost';
 FLUSH PRIVILEGES;
-SHOW GRANTS FOR '유저이름'@'localhost';
+SHOW GRANTS FOR 'userme'@'localhost';
+
+--------------------------------------------------------------------------------
+
+-- VIEW PRACTICE
+
+create view viewer as 
+select name, email from author;
+
+select * from viewer;
+
+--------------------------------------------------------------------------------
+
+-- PROCEDURE PRACTICE
+
+-- TRY1)
+DELIMITER //
+CREATE PROCEDURE getUser(IN userId INT)
+BEGIN
+SELECT * FROM AUTHOR WHERE ID = USERID;
+END//
+DELIMITER;
+
+-- TRY2)
+USE BOARD;
+DELIMITER // 
+CREATE PROCEDURE insert_prac(IN t VARCHAR(255), IN c VARCHAR(255), IN id INT)
+BEGIN
+INSERT INTO post(title, contents, author_id) values (t, c, id);
+END //
+DELIMITER ;
+
+CALL insert_prac("hellothere", "it's a test!", 4);
+
+-- TRY3) PRINT
+SELECT "HI" AS MESSAGE;
+
+-- TRY4) IF
+-- post 테이블에 if문 활용해서 고액 원고료 작가 조회
+DELIMITER //
+CREATE PROCEDURE postPriceChk(IN a_id INT)
+BEGIN 
+DECLARE avg_price INT DEFAULT 0;
+SELECT AVG(PRICE) INTO avg_price from post
+where author_id = a_id;
+IF avg_price > 1000 THEN
+SELECT "고액 원고료 작가입니다!" AS RESULT;
+ELSE 
+SELECT "고액 원고료 작가가 아닙니다!" AS RESULT;
+END IF;
+END //
+DELIMITER ;
+
+-- TRY5) WHILE
+DELIMITER //
+CREATE PROCEDURE adder()
+BEGIN 
+DECLARE cnt INT DEFAULT 0;
+WHILE cnt < 100 DO
+INSERT INTO post(title) values (concat("Minion Number ", cnt));
+set cnt = cnt + 1;
+END WHILE;
+END //
+DELIMITER ; 
+
+--------------------------------------------------------------------------------
+
+-- DB DUMP
+mysqldump -u root -p --default-character-set=utf8mb4 board > dumpfile.sql
+
+
+--------------------------------------------------------------------------------
+
