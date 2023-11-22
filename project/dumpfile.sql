@@ -1,0 +1,259 @@
+-- MariaDB dump 10.19-11.3.0-MariaDB, for Win64 (AMD64)
+--
+-- Host: localhost    Database: board
+-- ------------------------------------------------------
+-- Server version	11.3.0-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `author`
+--
+
+DROP TABLE IF EXISTS `author`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `author` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `role` enum('user','admin') NOT NULL DEFAULT 'user',
+  `address` varchar(255) DEFAULT NULL,
+  `age` tinyint(3) unsigned DEFAULT NULL,
+  `create_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `author_unique` (`email`),
+  KEY `author_name` (`name`),
+  KEY `name_with_email` (`name`,`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `author`
+--
+
+LOCK TABLES `author` WRITE;
+/*!40000 ALTER TABLE `author` DISABLE KEYS */;
+INSERT INTO `author` VALUES
+(1,'Carrie','carrie@gmail.com',NULL,'user',NULL,NULL,'2023-11-20 14:44:26'),
+(2,'David','david@yahoo.com',NULL,'user',NULL,NULL,'2023-11-20 14:44:26'),
+(3,'Tom','tom@naver.com',NULL,'user',NULL,NULL,'2023-11-20 14:44:26'),
+(4,'Summer','summer@gmail.com',NULL,'admin',NULL,250,'2023-11-20 14:44:26'),
+(5,'Jerry','jerry@naver.com',NULL,'user',NULL,NULL,'2023-11-21 10:44:53'),
+(6,'Penny','penny@yahoo.com',NULL,'user',NULL,NULL,'2023-11-21 10:44:53');
+/*!40000 ALTER TABLE `author` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post`
+--
+
+DROP TABLE IF EXISTS `post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `post` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `contents` varchar(3000) DEFAULT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `price` decimal(10,3) DEFAULT NULL,
+  `created_time` datetime(6) DEFAULT current_timestamp(6),
+  `create_at` datetime DEFAULT current_timestamp(),
+  PRIMARY KEY (`ID`),
+  KEY `second_fk` (`author_id`),
+  CONSTRAINT `second_fk` FOREIGN KEY (`author_id`) REFERENCES `author` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=216 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` VALUES
+(1,'YES','YEPPIE',1,1000.000,'2023-11-17 16:23:29.027629','2023-11-20 14:44:26'),
+(2,'BLUE','PANTS',5,200.000,'2023-11-17 16:23:29.027629','2023-11-20 14:44:26'),
+(3,'RED','HAT',3,1200.000,'2023-11-17 16:23:29.027629','2023-11-20 14:44:26'),
+(4,'YELLOW','GLOVES',5,3000.000,'2023-11-17 16:23:29.027629','2023-11-20 14:44:26'),
+(5,'PURPLE','COAT',1,800.000,'2023-11-17 16:23:29.027629','2023-11-20 14:44:26'),
+(6,'HAPPY','SATURDAY',4,4000.000,'2023-11-17 16:25:31.860260','2023-11-20 14:44:26'),
+(7,'SAD','MONDAY',2,500.000,'2023-11-21 10:45:32.311205','2023-11-21 10:45:32'),
+(116,'Minion Number 0',NULL,NULL,NULL,'2023-11-22 16:07:16.820162','2023-11-22 16:07:16'),
+(117,'Minion Number 1',NULL,NULL,NULL,'2023-11-22 16:07:16.821662','2023-11-22 16:07:16'),
+(118,'Minion Number 2',NULL,NULL,NULL,'2023-11-22 16:07:16.822427','2023-11-22 16:07:16'),
+(119,'Minion Number 3',NULL,NULL,NULL,'2023-11-22 16:07:16.823103','2023-11-22 16:07:16'),
+(120,'Minion Number 4',NULL,NULL,NULL,'2023-11-22 16:07:16.823744','2023-11-22 16:07:16'),
+(121,'Minion Number 5',NULL,NULL,NULL,'2023-11-22 16:07:16.824389','2023-11-22 16:07:16'),
+(122,'Minion Number 6',NULL,NULL,NULL,'2023-11-22 16:07:16.825133','2023-11-22 16:07:16'),
+(123,'Minion Number 7',NULL,NULL,NULL,'2023-11-22 16:07:16.825818','2023-11-22 16:07:16'),
+(124,'Minion Number 8',NULL,NULL,NULL,'2023-11-22 16:07:16.826515','2023-11-22 16:07:16'),
+(125,'Minion Number 9',NULL,NULL,NULL,'2023-11-22 16:07:16.827124','2023-11-22 16:07:16'),
+(126,'Minion Number 10',NULL,NULL,NULL,'2023-11-22 16:07:16.827760','2023-11-22 16:07:16'),
+(127,'Minion Number 11',NULL,NULL,NULL,'2023-11-22 16:07:16.829014','2023-11-22 16:07:16'),
+(128,'Minion Number 12',NULL,NULL,NULL,'2023-11-22 16:07:16.830024','2023-11-22 16:07:16'),
+(129,'Minion Number 13',NULL,NULL,NULL,'2023-11-22 16:07:16.830953','2023-11-22 16:07:16'),
+(130,'Minion Number 14',NULL,NULL,NULL,'2023-11-22 16:07:16.831832','2023-11-22 16:07:16'),
+(131,'Minion Number 15',NULL,NULL,NULL,'2023-11-22 16:07:16.832638','2023-11-22 16:07:16'),
+(132,'Minion Number 16',NULL,NULL,NULL,'2023-11-22 16:07:16.833659','2023-11-22 16:07:16'),
+(133,'Minion Number 17',NULL,NULL,NULL,'2023-11-22 16:07:16.834679','2023-11-22 16:07:16'),
+(134,'Minion Number 18',NULL,NULL,NULL,'2023-11-22 16:07:16.835590','2023-11-22 16:07:16'),
+(135,'Minion Number 19',NULL,NULL,NULL,'2023-11-22 16:07:16.836513','2023-11-22 16:07:16'),
+(136,'Minion Number 20',NULL,NULL,NULL,'2023-11-22 16:07:16.838848','2023-11-22 16:07:16'),
+(137,'Minion Number 21',NULL,NULL,NULL,'2023-11-22 16:07:16.839681','2023-11-22 16:07:16'),
+(138,'Minion Number 22',NULL,NULL,NULL,'2023-11-22 16:07:16.840489','2023-11-22 16:07:16'),
+(139,'Minion Number 23',NULL,NULL,NULL,'2023-11-22 16:07:16.841282','2023-11-22 16:07:16'),
+(140,'Minion Number 24',NULL,NULL,NULL,'2023-11-22 16:07:16.842002','2023-11-22 16:07:16'),
+(141,'Minion Number 25',NULL,NULL,NULL,'2023-11-22 16:07:16.842664','2023-11-22 16:07:16'),
+(142,'Minion Number 26',NULL,NULL,NULL,'2023-11-22 16:07:16.843338','2023-11-22 16:07:16'),
+(143,'Minion Number 27',NULL,NULL,NULL,'2023-11-22 16:07:16.844060','2023-11-22 16:07:16'),
+(144,'Minion Number 28',NULL,NULL,NULL,'2023-11-22 16:07:16.844756','2023-11-22 16:07:16'),
+(145,'Minion Number 29',NULL,NULL,NULL,'2023-11-22 16:07:16.845414','2023-11-22 16:07:16'),
+(146,'Minion Number 30',NULL,NULL,NULL,'2023-11-22 16:07:16.846073','2023-11-22 16:07:16'),
+(147,'Minion Number 31',NULL,NULL,NULL,'2023-11-22 16:07:16.847034','2023-11-22 16:07:16'),
+(148,'Minion Number 32',NULL,NULL,NULL,'2023-11-22 16:07:16.847737','2023-11-22 16:07:16'),
+(149,'Minion Number 33',NULL,NULL,NULL,'2023-11-22 16:07:16.848432','2023-11-22 16:07:16'),
+(150,'Minion Number 34',NULL,NULL,NULL,'2023-11-22 16:07:16.849023','2023-11-22 16:07:16'),
+(151,'Minion Number 35',NULL,NULL,NULL,'2023-11-22 16:07:16.849583','2023-11-22 16:07:16'),
+(152,'Minion Number 36',NULL,NULL,NULL,'2023-11-22 16:07:16.850258','2023-11-22 16:07:16'),
+(153,'Minion Number 37',NULL,NULL,NULL,'2023-11-22 16:07:16.850835','2023-11-22 16:07:16'),
+(154,'Minion Number 38',NULL,NULL,NULL,'2023-11-22 16:07:16.851393','2023-11-22 16:07:16'),
+(155,'Minion Number 39',NULL,NULL,NULL,'2023-11-22 16:07:16.851955','2023-11-22 16:07:16'),
+(156,'Minion Number 40',NULL,NULL,NULL,'2023-11-22 16:07:16.852491','2023-11-22 16:07:16'),
+(157,'Minion Number 41',NULL,NULL,NULL,'2023-11-22 16:07:16.852996','2023-11-22 16:07:16'),
+(158,'Minion Number 42',NULL,NULL,NULL,'2023-11-22 16:07:16.853508','2023-11-22 16:07:16'),
+(159,'Minion Number 43',NULL,NULL,NULL,'2023-11-22 16:07:16.854031','2023-11-22 16:07:16'),
+(160,'Minion Number 44',NULL,NULL,NULL,'2023-11-22 16:07:16.854558','2023-11-22 16:07:16'),
+(161,'Minion Number 45',NULL,NULL,NULL,'2023-11-22 16:07:16.855185','2023-11-22 16:07:16'),
+(162,'Minion Number 46',NULL,NULL,NULL,'2023-11-22 16:07:16.855703','2023-11-22 16:07:16'),
+(163,'Minion Number 47',NULL,NULL,NULL,'2023-11-22 16:07:16.856180','2023-11-22 16:07:16'),
+(164,'Minion Number 48',NULL,NULL,NULL,'2023-11-22 16:07:16.856700','2023-11-22 16:07:16'),
+(165,'Minion Number 49',NULL,NULL,NULL,'2023-11-22 16:07:16.857208','2023-11-22 16:07:16'),
+(166,'Minion Number 50',NULL,NULL,NULL,'2023-11-22 16:07:16.857713','2023-11-22 16:07:16'),
+(167,'Minion Number 51',NULL,NULL,NULL,'2023-11-22 16:07:16.858200','2023-11-22 16:07:16'),
+(168,'Minion Number 52',NULL,NULL,NULL,'2023-11-22 16:07:16.858680','2023-11-22 16:07:16'),
+(169,'Minion Number 53',NULL,NULL,NULL,'2023-11-22 16:07:16.859146','2023-11-22 16:07:16'),
+(170,'Minion Number 54',NULL,NULL,NULL,'2023-11-22 16:07:16.859620','2023-11-22 16:07:16'),
+(171,'Minion Number 55',NULL,NULL,NULL,'2023-11-22 16:07:16.860097','2023-11-22 16:07:16'),
+(172,'Minion Number 56',NULL,NULL,NULL,'2023-11-22 16:07:16.860573','2023-11-22 16:07:16'),
+(173,'Minion Number 57',NULL,NULL,NULL,'2023-11-22 16:07:16.861053','2023-11-22 16:07:16'),
+(174,'Minion Number 58',NULL,NULL,NULL,'2023-11-22 16:07:16.861563','2023-11-22 16:07:16'),
+(175,'Minion Number 59',NULL,NULL,NULL,'2023-11-22 16:07:16.862165','2023-11-22 16:07:16'),
+(176,'Minion Number 60',NULL,NULL,NULL,'2023-11-22 16:07:16.862668','2023-11-22 16:07:16'),
+(177,'Minion Number 61',NULL,NULL,NULL,'2023-11-22 16:07:16.863199','2023-11-22 16:07:16'),
+(178,'Minion Number 62',NULL,NULL,NULL,'2023-11-22 16:07:16.863696','2023-11-22 16:07:16'),
+(179,'Minion Number 63',NULL,NULL,NULL,'2023-11-22 16:07:16.864191','2023-11-22 16:07:16'),
+(180,'Minion Number 64',NULL,NULL,NULL,'2023-11-22 16:07:16.864734','2023-11-22 16:07:16'),
+(181,'Minion Number 65',NULL,NULL,NULL,'2023-11-22 16:07:16.865243','2023-11-22 16:07:16'),
+(182,'Minion Number 66',NULL,NULL,NULL,'2023-11-22 16:07:16.865753','2023-11-22 16:07:16'),
+(183,'Minion Number 67',NULL,NULL,NULL,'2023-11-22 16:07:16.866338','2023-11-22 16:07:16'),
+(184,'Minion Number 68',NULL,NULL,NULL,'2023-11-22 16:07:16.866962','2023-11-22 16:07:16'),
+(185,'Minion Number 69',NULL,NULL,NULL,'2023-11-22 16:07:16.867468','2023-11-22 16:07:16'),
+(186,'Minion Number 70',NULL,NULL,NULL,'2023-11-22 16:07:16.868047','2023-11-22 16:07:16'),
+(187,'Minion Number 71',NULL,NULL,NULL,'2023-11-22 16:07:16.868550','2023-11-22 16:07:16'),
+(188,'Minion Number 72',NULL,NULL,NULL,'2023-11-22 16:07:16.869109','2023-11-22 16:07:16'),
+(189,'Minion Number 73',NULL,NULL,NULL,'2023-11-22 16:07:16.869595','2023-11-22 16:07:16'),
+(190,'Minion Number 74',NULL,NULL,NULL,'2023-11-22 16:07:16.870063','2023-11-22 16:07:16'),
+(191,'Minion Number 75',NULL,NULL,NULL,'2023-11-22 16:07:16.870535','2023-11-22 16:07:16'),
+(192,'Minion Number 76',NULL,NULL,NULL,'2023-11-22 16:07:16.871036','2023-11-22 16:07:16'),
+(193,'Minion Number 77',NULL,NULL,NULL,'2023-11-22 16:07:16.871532','2023-11-22 16:07:16'),
+(194,'Minion Number 78',NULL,NULL,NULL,'2023-11-22 16:07:16.872008','2023-11-22 16:07:16'),
+(195,'Minion Number 79',NULL,NULL,NULL,'2023-11-22 16:07:16.872488','2023-11-22 16:07:16'),
+(196,'Minion Number 80',NULL,NULL,NULL,'2023-11-22 16:07:16.872964','2023-11-22 16:07:16'),
+(197,'Minion Number 81',NULL,NULL,NULL,'2023-11-22 16:07:16.873438','2023-11-22 16:07:16'),
+(198,'Minion Number 82',NULL,NULL,NULL,'2023-11-22 16:07:16.873918','2023-11-22 16:07:16'),
+(199,'Minion Number 83',NULL,NULL,NULL,'2023-11-22 16:07:16.874406','2023-11-22 16:07:16'),
+(200,'Minion Number 84',NULL,NULL,NULL,'2023-11-22 16:07:16.874880','2023-11-22 16:07:16'),
+(201,'Minion Number 85',NULL,NULL,NULL,'2023-11-22 16:07:16.875351','2023-11-22 16:07:16'),
+(202,'Minion Number 86',NULL,NULL,NULL,'2023-11-22 16:07:16.875912','2023-11-22 16:07:16'),
+(203,'Minion Number 87',NULL,NULL,NULL,'2023-11-22 16:07:16.876419','2023-11-22 16:07:16'),
+(204,'Minion Number 88',NULL,NULL,NULL,'2023-11-22 16:07:16.876934','2023-11-22 16:07:16'),
+(205,'Minion Number 89',NULL,NULL,NULL,'2023-11-22 16:07:16.877448','2023-11-22 16:07:16'),
+(206,'Minion Number 90',NULL,NULL,NULL,'2023-11-22 16:07:16.877944','2023-11-22 16:07:16'),
+(207,'Minion Number 91',NULL,NULL,NULL,'2023-11-22 16:07:16.878436','2023-11-22 16:07:16'),
+(208,'Minion Number 92',NULL,NULL,NULL,'2023-11-22 16:07:16.878931','2023-11-22 16:07:16'),
+(209,'Minion Number 93',NULL,NULL,NULL,'2023-11-22 16:07:16.879428','2023-11-22 16:07:16'),
+(210,'Minion Number 94',NULL,NULL,NULL,'2023-11-22 16:07:16.879935','2023-11-22 16:07:16'),
+(211,'Minion Number 95',NULL,NULL,NULL,'2023-11-22 16:07:16.880440','2023-11-22 16:07:16'),
+(212,'Minion Number 96',NULL,NULL,NULL,'2023-11-22 16:07:16.880959','2023-11-22 16:07:16'),
+(213,'Minion Number 97',NULL,NULL,NULL,'2023-11-22 16:07:16.881483','2023-11-22 16:07:16'),
+(214,'Minion Number 98',NULL,NULL,NULL,'2023-11-22 16:07:16.881986','2023-11-22 16:07:16'),
+(215,'Minion Number 99',NULL,NULL,NULL,'2023-11-22 16:07:16.882549','2023-11-22 16:07:16');
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `table_blob`
+--
+
+DROP TABLE IF EXISTS `table_blob`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `table_blob` (
+  `id` int(11) DEFAULT NULL,
+  `myimg` longblob DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `table_blob`
+--
+
+LOCK TABLES `table_blob` WRITE;
+/*!40000 ALTER TABLE `table_blob` DISABLE KEYS */;
+INSERT INTO `table_blob` VALUES
+(1,NULL);
+/*!40000 ALTER TABLE `table_blob` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `viewer`
+--
+
+DROP TABLE IF EXISTS `viewer`;
+/*!50001 DROP VIEW IF EXISTS `viewer`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `viewer` AS SELECT
+ 1 AS `name`,
+  1 AS `email` */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `viewer`
+--
+
+/*!50001 DROP VIEW IF EXISTS `viewer`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `viewer` AS select `author`.`name` AS `name`,`author`.`email` AS `email` from `author` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-11-22 17:07:03

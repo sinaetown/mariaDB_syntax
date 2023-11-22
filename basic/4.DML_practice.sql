@@ -445,6 +445,12 @@ DELIMITER ;
 -- DB DUMP
 mysqldump -u root -p --default-character-set=utf8mb4 board > dumpfile.sql
 
+mysql -u root -p board < dumpfile.sql
 
 --------------------------------------------------------------------------------
 
+-- 리눅스
+
+git clone https://github.com/sinaetown/mariaDB_syntax.git
+
+mysql -u  root -p board < dumpfile.sql
