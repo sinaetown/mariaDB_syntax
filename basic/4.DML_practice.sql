@@ -469,3 +469,132 @@ scp
 파일전송관련 명령어도 사용가능
 ex) scp [src] [dst]
 ex) scp test.txt 127.0.0.1
+
+--------------------------------------------------------------------------------
+
+-- post_authors Practice
+-- 한 포스트를 쓴 사람'들'의 이름 구하기
+
+-- create author_address table
+create table author_address(id INT, country VARCHAR(255), 
+state_city VARCHAR(255), details VARCHAR(255), 
+zip_code VARCHAR(255), phonenumber VARCHAR(255), 
+foreign key(id) references author(id) on delete cascade, unique(author_id));
+
+-- create post_authors
+create table post_authors(id INT, post_id INT, author_id INT, primary key(id), foreign key(post_id) references post(id), foreign key(author_id) references author(id));
+
+-- TEST CASE 
+-- STEP 1. INSERT VALUES
+
+insert into author(id, name, email) values(1, "Summer", "summer@gmail.com");
+insert into author(id, name, email) values(2, "Tom", "tom@naver.com");
+insert into author(id, name, email) values(3, "Penny", "penny@yahoo.com");
+
+insert into post(id, title, contents) values(1, "Good", "Morning!");
+insert into post(id, title, contents) values(2, "Happy", " Holidays!");
+insert into post(id, title, contents) values(3, "Merry", "Christmas!");
+
+insert into post_authors(id, post_id, author_id) values (1, 1, 1);
+insert into post_authors(id, post_id, author_id) values (2, 1, 2);
+insert into post_authors(id, post_id, author_id) values (3, 2, 3);
+insert into post_authors(id, post_id, author_id) values (4, 3, 1);
+insert into post_authors(id, post_id, author_id) values (5, 3, 2);
+insert into post_authors(id, post_id, author_id) values (6, 3, 3);
+
+-- STEP 2. TEST CASE
+select post.title, author.name from post left join post_authors on post_id = post.id  
+left join author on  post_authors.author_id = author.id;
+
+--------------------------------------------------------------------------------
+
+-- Create members table
+create table members(id INT not null, name VARCHAR(255), 
+email VARCHAR(255), password VARCHAR(255), 
+role enum('user', 'admin', 'seller') not null default 'user', 
+primary key(id));
+
+-- Create item table
+create table items(id INT not null auto_increment, product_name VARCHAR(255) not null, 
+producT_price decimal(10,3) not null, product_number BIGINT not null,
+seller_id INT not null, foreign key(seller_id) references members(id),
+primary key(id));  
+
+
+-- Create orders table
+create table orders(id INT not null, member_id INT not null,
+primary key(id),
+foreign key(member_id) references members(id));
+
+-- Create orders_details table
+
+create table orders_details(id INT not null, order_id INT not null, item_id INT not null,
+ordered_num INT, primary key(id),
+foreign key(order_id) references orders(id),
+foreign key(item_id) references items(id));
+
+-- Insert into members
+
+insert into members(id, name, email, password, role) values (1, "Summer", "summer@gmail.com", "summer123", 'admin');
+insert into members(id, name, email, password, role) values (2, "Jake", "jake@gmail.com", "jake123", 'user');
+insert into members(id, name, email, password) values (3, "Tom", "tom@naver.com", "tom123");
+insert into members(id, name, email, password, role) values (4, "Kyle", "kyle@yahoo.com", "kyle123", 'user');
+insert into members(id, name, email, password, role) values (5, "Ella", "ella@yahoo.com", "ella1223", 'seller');
+
+-- Insert into items
+
+insert into items(id, product_name, product_price, product_number, seller_id) 
+values (1, "book", 13.2, 50, 1);
+
+insert into items(id, product_name, product_price, product_number, seller_id) 
+values (2, "laptop", 492.1, 10, 2);
+
+insert into items(id, product_name, product_price, product_number, seller_id) 
+values (3, "phone", 290.8, 20, 3);
+
+insert into items(id, product_name, product_price, product_number, seller_id) 
+values (4, "pear", 4.2, 300, 4);
+
+insert into items(id, product_name, product_price, product_number, seller_id) 
+values (5, "apple", 1.7, 450, 5);
+
+-- Insert into orders
+
+insert into orders(id, member_id) values (1, 1);
+insert into orders(id, member_id) values (2, 2);
+insert into orders(id, member_id) values (3, 2);
+insert into orders(id, member_id) values (4, 1);
+insert into orders(id, member_id) values (5, 2);
+
+-- Insert into orders_details
+insert into orders_details(id, order_id, item_id, ordered_num) 
+values(1, 1, 1, 10);
+
+insert into orders_details(id, order_id, item_id, ordered_num) 
+values(2, 1, 2, 20);
+
+insert into orders_details(id, order_id, item_id, ordered_num) 
+values(3, 2, 1, 30);
+
+-- Test Cases (Making Transactions)
+
+-- 1) Seller 회원 가입 -> seller가 상품등록 (사과, 바나나)
+
+insert into members(id, name, email, password, role) values (6, "Ed", "ed@gmail.com", "edd123", 'seller');
+insert into items(id, product_name, product_price, product_number, seller_id) 
+values ("LEGO", 5.1, 1, 6);
+insert into items(id, product_name, product_price, product_number, seller_id) 
+values (7, "toy gun", 18.33, 1, 6);
+
+
+insert into members(id, name, email, password, role) values (7, "Sofia", "sofia@gmail.com", "sofia123", 'seller');
+
+insert into items(product_name, product_price, product_number, seller_id) 
+values ("shoes", 78.1, 1, 6);
+insert into items(product_name, product_price, product_number, seller_id) 
+values ("microphone", 400, 3, 9);
+
+-- 2) customer 가 회원가입
+
+
+-- 3) order테이블에 isnert, orders_details에 insert, 재고 update
