@@ -443,14 +443,29 @@ DELIMITER ;
 --------------------------------------------------------------------------------
 
 -- DB DUMP
+-- from workbench to .sql file
 mysqldump -u root -p --default-character-set=utf8mb4 board > dumpfile.sql
 
+-- from .sql file to workbench 
 mysql -u root -p board < dumpfile.sql
 
 --------------------------------------------------------------------------------
 
--- 리눅스
+-- LINUX
+
+sudo apt-get -y upgrade
+sudo apt-get install -y mariadb-server
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+sudo mariadb -u root -p
+create database board;
+exit
 
 git clone https://github.com/sinaetown/mariaDB_syntax.git
+cd 이동할_폴더 (dumpfile있는 곳으로)
+sudo mysql -u root -p board < dumpfile.sql
 
-mysql -u  root -p board < dumpfile.sql
+scp
+파일전송관련 명령어도 사용가능
+ex) scp [src] [dst]
+ex) scp test.txt 127.0.0.1
