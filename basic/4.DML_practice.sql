@@ -482,7 +482,9 @@ zip_code VARCHAR(255), phonenumber VARCHAR(255),
 foreign key(id) references author(id) on delete cascade, unique(author_id));
 
 -- create post_authors
-create table post_authors(id INT, post_id INT, author_id INT, primary key(id), foreign key(post_id) references post(id), foreign key(author_id) references author(id));
+create table post_authors(id INT, post_id INT, author_id INT, primary key(id), 
+foreign key(post_id) references post(id), 
+foreign key(author_id) references author(id));
 
 -- TEST CASE 
 -- STEP 1. INSERT VALUES
@@ -506,30 +508,33 @@ insert into post_authors(id, post_id, author_id) values (6, 3, 3);
 select post.title, author.name from post left join post_authors on post_id = post.id  
 left join author on  post_authors.author_id = author.id;
 
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+-- Ordersystem Practice
 
 -- Create members table
-create table members(id INT not null, name VARCHAR(255), 
-email VARCHAR(255), password VARCHAR(255), 
-role enum('user', 'admin', 'seller') not null default 'user', 
+create table members(id INT not null auto_increment, name VARCHAR(255) not null, 
+email VARCHAR(255) not null, password VARCHAR(255) not null, 
+role enum('user', 'admin', 'seller') default 'user', 
 primary key(id));
 
 -- Create item table
 create table items(id INT not null auto_increment, product_name VARCHAR(255) not null, 
-producT_price decimal(10,3) not null, product_number BIGINT not null,
+product_price decimal(10,3) not null, product_number BIGINT not null,
 seller_id INT not null, foreign key(seller_id) references members(id),
 primary key(id));  
 
 
 -- Create orders table
-create table orders(id INT not null, member_id INT not null,
+create table orders(id INT not null auto_increment, member_id INT not null,
+ordered_date DATETIME default current_timestamp,
 primary key(id),
 foreign key(member_id) references members(id));
 
 -- Create orders_details table
 
-create table orders_details(id INT not null, order_id INT not null, item_id INT not null,
-ordered_num INT, primary key(id),
+create table orders_details(id INT not null auto_increment, order_id INT not null, item_id INT not null,
+ordered_num INT NOT NULL, primary key(id),
 foreign key(order_id) references orders(id),
 foreign key(item_id) references items(id));
 
@@ -588,7 +593,6 @@ values (7, "toy gun", 18.33, 1, 6);
 
 
 insert into members(id, name, email, password, role) values (7, "Sofia", "sofia@gmail.com", "sofia123", 'seller');
-
 insert into items(product_name, product_price, product_number, seller_id) 
 values ("shoes", 78.1, 1, 6);
 insert into items(product_name, product_price, product_number, seller_id) 
@@ -597,4 +601,4 @@ values ("microphone", 400, 3, 9);
 -- 2) customer 가 회원가입
 
 
--- 3) order테이블에 isnert, orders_details에 insert, 재고 update
+-- 3) order테이블에 insert, orders_details에 insert, 재고 update
