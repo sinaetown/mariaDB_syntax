@@ -12,11 +12,15 @@ create table post(id INT, title VARCHAR(100) not null , contents VARCHAR(255), p
 foreign key(author_id) references author(id));
 
 -- When the key that foreign key references is...
--- 1) Primary Key
-create table src(id INT primary key, test_src VARCHAR(200));
+-- Primary Key
+create table src(id INT primary key, test_src INT);
 
-create table dest(id INT, test_dest VARCHAR(200), 
+create table dest(id INT, test_dest INT, 
 foreign key(test_dest) references src(id));
+
+-- Insert test cases:
+insert into src(id, test_src) values (1, 2);
+insert into dest(id, test_dest) values(1, 1);
 
 -- When trying to exeucte this:
 delete from src where id = 1;
